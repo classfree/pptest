@@ -39,9 +39,9 @@ print """Usage: python sum_primes.py [ncpus]
 # tuple of all parallel python servers to connect with
 #ppservers = ("127.0.0.1:60000", )
 ppservers1 = ("192.168.56.102:1234", )
-ppservers2 = ("192.168.56.103:1234", )
+ppservers2 = ("192.168.0.11:8809", )
 
-job_server1 = pp.Server(ncpus=0, ppservers=ppservers1)
+job_server1 = pp.Server(ncpus=0, ppservers=ppservers1, secret="blog")
 job_server2 = pp.Server(ncpus=0, ppservers=ppservers2)
 
 print sys.argv[0]
@@ -74,8 +74,8 @@ job2 = job_server2.submit(sum_primes, (200, ), (isprime, ), ("math", ))
 # If the job has not been finished yet, execution will
 # wait here until result is available
 result1 = job1()
-result2 = job2()
 print "Sum of primes below 100 is", result1, '\n'
+result2 = job2()
 print "Sum of primes below 200 is", result2, '\n'
 
 
@@ -110,7 +110,7 @@ while True:
     num = input("insert num ? ")
     if num == 0:
         break
-    elif num < 10:
+    elif num < 100000:
         job = job_server1.submit(sum_primes, (num, ), (isprime, ), ("math", ))
         result = job()
         print "Sum of primes below ", num, " is", result, '\n'
